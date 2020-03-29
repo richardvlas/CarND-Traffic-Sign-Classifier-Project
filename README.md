@@ -140,7 +140,12 @@ I applied the same preprocessing to these images as to the training dataset. Run
 |Stop|Stop|
 |Double curve|Double curve|
 
-For each of the 5 images, I printed out the model's softmax probabilities to show the certainty of the model's predictions.
+A direct prediction accuracy comparison with the training set should not be made since the size of both datasets is significantly different and the results might be missleading. Much better way would be to test the prediction accuracy on larger dataset (100-1000 images) than on 5 images. 
+
+For each of the 5 images, I printed out the model's softmax values to show the certainty of the model's predictions.
 The function `tf.nn.top_k` was used to select the top 5 class probabilities predicted by the traffic sign classifier.
 
 <img src="img/new_images_top_5_classes.JPG" width="75%" height="75%">
+
+The highest softmax value of each image is correctly predicting the correctly traffic sign class. The softmax value of the last image is a little bit lower. This might be due to the preprocessing operation that resized the original image to 32x32px which caused the image to be slightly deformed.
+The classifier is very certain of its predicitions not making any significant prediction errors. 
