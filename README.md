@@ -147,5 +147,5 @@ The function `tf.nn.top_k` was used to select the top 5 class probabilities pred
 
 <img src="img/new_images_top_5_classes.JPG" width="75%" height="75%">
 
-The highest softmax value of each image is correctly predicting the correctly traffic sign class. The softmax value of the last image is a little bit lower. This might be due to the preprocessing operation that resized the original image to 32x32px which caused the image to be slightly deformed.
+The highest softmax value of each image is accurately predicting the correct traffic sign class. The softmax value of the last image is a little bit lower. This might be due to the preprocessing operation that resized the original image to 32x32px which caused the image to be slightly deformed.
 The classifier is very certain of its predicitions not making any significant prediction errors. 
