@@ -84,7 +84,17 @@ and after preprocessing:
 
 ### Model Architecture
 The infamous LeNet convolutional neural network structure (Yann LeCun et al. in 1998) was used as a reference for model structure.
-The main changes consist of including dropout layer that helps to ensure the model doesn't overfit.
+
+As a first step I modified the LeNet model by simply adapting the last output layer from 10 to 43 outputs which coresponds to the number of classes of the traffic sign dataset. Then I increased the number of `EPOCHS` to 70 while keeping `BATCH_SIZE` = 128 and `rate` = 1e-3. The reason to increase the number of EPOCHS is due to the fact that the optimizer is gradient-based which means that in order to get to the minimum of the loss function, we need to perform multiple steps. The more steps we perform the more we get to the minimum (we ussualy get to some local minimum rather than global minimum). While the accuracy increased to about 91%, it also started to 'oscilate' meaning the accuracy sometimes increases then went down and again increased. I was trying to figure out what is the cause of those 'oscilations' and why the accuracy did not reach higher values. 
+
+I susspected two things to be the cause of this issue:
+1. Learning rate was to high
+2. Number of units in the fully connected layer was not sufficient for the model to learn the data accurately
+
+So I decided to futher change the neural network architecture as follows:
+- decrease learning rate to 8e-4 (although I also tried to ge as low as 5e-5 which proved to be to small and therefore the training would take to long to complete)
+- increase the number of units in the 1. fully conected layer from 120 to 200 units
+- add 3 dropout layers with 60% keep probability to make sure the neural network doesn't overfit the training data
 
 Here is the final model architecture:
 |Layer|Description|
@@ -128,7 +138,9 @@ Here are five German traffic signs that I found on the web:
 
 <img src="img/new_images_original.JPG" width="75%" height="75%">
 
-From the visual inspection, none of them should be difficult to classify.
+Altough the images I found are of good quality, they initially were a part of a bigger image with a landscape and one image included two traffic signs. The classification of those initial images end up to be around 60%. This is due to the fact that I resized each image to 32x32px which largely decreased the quality, skewed the images and make the traffic sign almost unrecognizable. So I decided to manualy crop each image around the traffic sign to make sure the sign image doesn't get to distorted and those are the images shown above.
+
+From the visual inspection these images shouldn't be difficult to classify as you can see below.
 
 I applied the same preprocessing to these images as to the training dataset. Running the images through the traffic sign classifier results in prediction accuracy of 100%.
 
@@ -140,7 +152,7 @@ I applied the same preprocessing to these images as to the training dataset. Run
 |Stop|Stop|
 |Double curve|Double curve|
 
-A direct prediction accuracy comparison with the training set should not be made since the size of both datasets is significantly different and the results might be missleading. Much better way would be to test the prediction accuracy on larger dataset (100-1000 images) than on 5 images. 
+A direct prediction accuracy comparison with the training set should not be made since the size of both datasets is significantly different and the results might be missleading. Much better way would be to test the prediction accuracy on larger dataset (100-1000 images) than on just 5 images. 
 
 For each of the 5 images, I printed out the model's softmax values to show the certainty of the model's predictions.
 The function `tf.nn.top_k` was used to select the top 5 class probabilities predicted by the traffic sign classifier.
